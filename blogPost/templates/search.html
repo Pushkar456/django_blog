@@ -1,0 +1,28 @@
+{% extends 'basic.html' %}
+
+
+{% block body %}
+<body>
+		<div class="container">	
+     <div class="row my-2">
+     		 	{% if searchs %}
+     			{% for post in searchs %}
+						<div class="col-sm-6 my-2"> 
+												<div class="card"> 
+																		<div class="card-body "> 
+																								<h5 class="card-title mb-0 font-weight-bold">{{ post.tittle }} </h5>
+																								 <p class="text-muted mb-2"> by <span class="font-italic mx-2"> {{ post.author }}  </span>  {{ post.timestamp }} </p>
+																								 <p class="card-text"> {{ post.content | truncatechars:500 }} content.</p> 
+																								 <a href="{{ post.slug }}" class="btn btn-primary">Read Blogs</a> 
+																				</div> 
+														</div> 
+						 </div>
+							{% endfor %} 
+						 {% else %}
+						 <div class="col-12" style="height:76vh;">No result found for your query - {{query}}</div>
+						 {% endif %}
+				
+				</div>
+		</div>
+</body>
+{% endblock %}

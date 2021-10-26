@@ -1,0 +1,35 @@
+{% extends 'basic.html' %}
+{% block homeactive %} active {% endblock %}
+
+{% block body %}
+<body>
+  <div class="container">
+						<div class="col-12 bg-light text-center p-3"> 
+							<h3>Welcome to itsCoding </h3>					
+						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat.</p> 
+						 <a href="/blog" class="btn btn-primary"> Go to BlogPosts</a> 
+					 </div>
+					 
+					 <h5 class="m-1">Read our popular blogs</h5>
+       <div class="row my-2"> 
+							{% for post in posts %}
+							{% if forloop.counter < 3 %}
+						 <div class="col-sm-6 my-2"> 
+											 	<div class="card"> 
+																		<div class="card-body "> 
+																								<h5 class="card-title mb-0 font-weight-bold ">{{ post.tittle }} <span class="text-muted mb-2 ml-2" style="font-size:15px;">({{post.views}} views)</span> </h5>
+																								 <p class="text-muted mb-2"> by <span class="font-italic mx-2"> {{ post.author }}  </span>  {{ post.timestamp }} </p>
+																								 <p class="card-text"> {{ post.content | truncatechars:500 }} content.</p> 
+																								 <a href="blog/{{ post.slug }}" class="btn btn-primary">Read Blogs</a> 
+																				</div> 
+														</div> 
+						 </div>
+						 {% endif %}
+					{% endfor %}
+				</div>
+ </div>
+</body>
+{% endblock %}				 
+	 
+					 
+					 

@@ -1,0 +1,83 @@
+{% extends 'basic.html' %}
+
+{% block blogactive %} active {% endblock %}
+{% block body %}
+<body>
+			<div class="container my-2 ">
+									<!-- blog view  -->
+									<h5 class="card-title mb-0 font-weight-bold">{{ post.tittle }} <span class="text-muted mb-2 ml-2" style="font-size:15px;">({{post.views}} views)</span>  </h5>
+							   <p class="text-muted mb-2"> by 
+							   <span class="font-italic mx-2"> {{ post.author }}  </span>  {{ post.timestamp }} </p>
+									<p>{{post.content}}</p> </hr>
+									<!-- comments box here -->
+									<h3 class="ml-2">Comments 
+									  <span>({{comments.count}})</span></h3>
+									<div class="row m-1">
+													{% if user.is_authenticated %}
+									<!-- comment enter form  -->
+													<form class="form" action="/blog/blogComment" method="post">
+															{% csrf_token %}
+															<input class="m-2 form-control" name="comment" type="text" placeholder="enter a comment here">
+															<input class=" mx-2" name="postsno" type="hidden" value="{{post.sno}}">
+															<input class="mx-2 btn btn-primary" type="submit"   value="submit">
+												</form>
+												{% else %}
+												<p>Please login to comment</p>
+												{% endif %}
+									</div>
+						<!-- comments view box -->
+						    {% for comment in comments %}
+									<div class="row mb-1">
+											<div class="col-sm-6">
+													 <div class="card"> 
+																<div class="card-body p-1"> 
+																		<div class="card-tittle col-12">
+															 				<h5 class=" my-0">{{comment.user.username}}</h5> 
+															 				<span class="text-muted">{{comment.timestamp}}</span>
+															 			 	<p class="card-text mb-1">{{comment.content}}</p> 
+											{% if user.is_authenticated %}
+															 			<button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#reply{{comment.sno}}" aria-expanded="false" aria-controls="collapseExample">reply</button>
+									{% else %}
+									            <button class="btn btn-primary disabled" type="button">reply</button>
+	           {% endif %}
+	           
+	           <div class="collapse my-1 p-0" id="reply{{comment.sno}}"> 
+															 									<div class="card card-body"> 
+									
+									 <!-- reply enter form -->
+															 										<form class="form" action="/blog/blogReply" method="post">
+															{% csrf_token %}
+															<input class="m-2 form-control" name="reply" type="text" placeholder="enter reply here">
+															<input class=" mx-2" name="postsno" type="hidden" value="{{post.sno}}">
+															<input class=" mx-2" name="parent" type="hidden" value="{{comment.sno}}">
+															<input class="mx-2 btn btn-primary" type="submit"  value="reply">
+											                 	</form>			
+											                 		
+															 									</div>
+															 			 </div>
+	           
+	           <!-- relpy box -->
+	            {% load extras %} 
+	            {% for reply in replies|dictkey:comment.sno %}
+	                        <div class=" bg my-1">
+	                          <div class="card"> 
+															        	<div class="card-body p-1"> 
+																		       <div class="card-tittle col-12">
+															 				       <h7 class=" my-1">{{reply.user.username}}</h7> 
+															 				       <span class="text-muted">{{reply.timestamp}}</span>
+															 			        	<p class="card-text mb-1">{{reply.content}}</p> 
+	                        				   </div>		
+	                            </div>
+	                          </div>		
+	                        </div>
+	                     {% endfor %}   
+															 			
+															 		 </div> 
+										      	</div>
+										    </div>
+										 </div>
+									</div>
+									{% endfor %}
+			</div>
+</body>
+{% endblock %}
