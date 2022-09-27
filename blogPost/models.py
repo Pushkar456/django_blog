@@ -10,7 +10,7 @@ class Post(models.Model):
         views=models.IntegerField(default=0)
         timestamp=models.DateTimeField(blank=True)
         slug = models.CharField(max_length = 250, null = True, blank = True)
-       # post_image=models.ImageField(upload_to='static/')
+        #post_image=models.ImageField(upload_to='static/')
         def __str__(self):
           return self.tittle
        
